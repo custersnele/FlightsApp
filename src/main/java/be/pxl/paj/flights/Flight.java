@@ -13,19 +13,9 @@ public class Flight {
 	private final int id;
 
 	/**
-	 * Stores the year of the flight.
+	 * Stores the date of the flight.
 	 */
-	private final int year;
-
-	/**
-	 * Stores the number (from 1) of the month in which the flight occurs.
-	 */
-	private final int month;
-
-	/**
-	 * Stores the day of the month in which the flight occurs.
-	 */
-	private final int dayOfMonth;
+	private final LocalDate date;
 
 	/**
 	 * Stores the full name of the carrier (e.g., Alaska Airlines Inc.).
@@ -56,12 +46,10 @@ public class Flight {
 	 * Creates a flight with the given properties.
 	 */
 	public Flight(
-			int id, int year, int month, int dayOfMonth, String carrier,
+			int id, LocalDate date, String carrier,
 			String flightNum, String originCity, String destCity, int timeMinutes) {
 		this.id = id;
-		this.year = year;
-		this.month = month;
-		this.dayOfMonth = dayOfMonth;
+		this.date = date;
 		this.carrier = carrier.trim();
 		this.flightNum = flightNum.trim();
 		this.originCity = originCity.trim();
@@ -101,7 +89,7 @@ public class Flight {
 	}
 
 	public String getFlightDetails() {
-		return String.format("   %11s %-12s %-12s %s %s", "", getOriginCityShort(), getDestCityShort(), carrier, flightNum);
+		return String.format("%-12s %-12s %s %s", getOriginCityShort(), getDestCityShort(), carrier, flightNum);
 	}
 
 	public int getTimeMinutes() {
@@ -109,6 +97,6 @@ public class Flight {
 	}
 
 	public LocalDate getDate() {
-		return LocalDate.of(year, month, dayOfMonth);
+		return date;
 	}
 }

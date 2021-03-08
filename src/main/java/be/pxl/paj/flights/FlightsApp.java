@@ -145,14 +145,13 @@ public class FlightsApp {
 	 */
 	private void runSearch(String originCity, String destCity, int dayOfMonth)
 			throws Exception {
-		itineraries = toItineraries(
-				db.getFlights(LocalDate.now().getYear(), 7, dayOfMonth, originCity, destCity));
+		LocalDate date = LocalDate.now().withMonth(7).withDayOfMonth(dayOfMonth);
+		itineraries = toItineraries(db.getFlights(date, originCity, destCity));
 		itinerariesCommand = "search";
 
 		// Sort the itineraries and truncate to 99 results.
 		Collections.sort(itineraries);
-		while (itineraries.size() > 99)
-			itineraries.remove(itineraries.size() - 1);
+		itineraries = itineraries.subList(0, 99);
 
 		showItineraries();
 	}
@@ -270,7 +269,7 @@ public class FlightsApp {
 			System.out.println(String.format("%2d %11s %s", index + 1, DATE_FMT.format(it.getDate()), firstFlight.getFlightDetails()));
 			for (int j = 1; j < it.getFlights().size(); j++) {
 				Flight flight = it.getFlights().get(j);
-				System.out.println(flight.getFlightDetails());
+				System.out.println(String.format("%15s %s", " ", flight.getFlightDetails()));
 			}
 		}
 	}
