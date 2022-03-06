@@ -24,6 +24,11 @@ import java.util.regex.Pattern;
 public class FlightsApp {
 
 	/**
+	 * Format to use for displaying dates.
+	 */
+	private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+
+	/**
 	 * Provides access to the database.
 	 */
 	private final FlightsDB db;
@@ -103,7 +108,7 @@ public class FlightsApp {
 			return null;
 		}
 		Matcher m = TOKEN_PATTERN.matcher(command);
-		List<String> tokens = new ArrayList<String>();
+		List<String> tokens = new ArrayList<>();
 		while (m.find()) {
 			if (m.group(1) != null) {
 				tokens.add(m.group(1));
@@ -134,7 +139,7 @@ public class FlightsApp {
 		User user = db.logIn(handle, password);
 		if (user != null) {
 			this.user = user;
-			System.out.println(String.format("Hello, %s!", user.getFullName()));
+			System.out.printf("Hello, %s!%n", user.getFullName());
 		} else {
 			System.out.println("Error: incorrect handle or password");
 		}
@@ -167,8 +172,8 @@ public class FlightsApp {
 			System.out.println("Error: must be logged in to book flights");
 
 		} else if (itineraryNum <= 0 || itineraries.size() < itineraryNum) {
-			System.out.println(String.format("Error: no such itinerary (%d)",
-					itineraryNum));
+			System.out.printf("Error: no such itinerary (%d)%n",
+					itineraryNum);
 
 		} else {
 			Itinerary it = itineraries.get(itineraryNum - 1);
@@ -212,8 +217,8 @@ public class FlightsApp {
 			System.out.println("Error: must be logged in to cancel flights");
 
 		} else if (itineraryNum <= 0 || itineraries.size() < itineraryNum) {
-			System.out.println(String.format("Error: no such itinerary (%d)",
-					itineraryNum));
+			System.out.printf("Error: no such itinerary (%d)%n",
+					itineraryNum);
 
 		} else {
 			Itinerary it = itineraries.get(itineraryNum - 1);
@@ -230,7 +235,7 @@ public class FlightsApp {
 		Map<LocalDate, List<Flight>> flightsByDate = new HashMap<>();
 		for (Flight flight : flights) {
 			if (!flightsByDate.containsKey(flight.getDate())) {
-				flightsByDate.put(flight.getDate(), new ArrayList<Flight>());
+				flightsByDate.put(flight.getDate(), new ArrayList<>());
 			}
 			flightsByDate.get(flight.getDate()).add(flight);
 		}
@@ -253,10 +258,6 @@ public class FlightsApp {
 		return itineraries;
 	}
 
-	/**
-	 * Format to use for displaying dates.
-	 */
-	private static DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 
 	/**
 	 * Prints out the most recently stored itineraries.
@@ -266,10 +267,10 @@ public class FlightsApp {
 		for (int index = 0; index < itineraries.size(); index++) {
 			Itinerary it = itineraries.get(index);
 			Flight firstFlight = it.getFlights().get(0);
-			System.out.println(String.format("%2d %11s %s", index + 1, DATE_FMT.format(it.getDate()), firstFlight.getFlightDetails()));
+			System.out.printf("%2d %11s %s%n", index + 1, DATE_FMT.format(it.getDate()), firstFlight.getFlightDetails());
 			for (int j = 1; j < it.getFlights().size(); j++) {
 				Flight flight = it.getFlights().get(j);
-				System.out.println(String.format("%15s %s", " ", flight.getFlightDetails()));
+				System.out.printf("%15s %s%n", " ", flight.getFlightDetails());
 			}
 		}
 	}
