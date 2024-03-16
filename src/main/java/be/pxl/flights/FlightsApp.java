@@ -1,4 +1,4 @@
-package be.pxl.paj.flights;
+package be.pxl.flights;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

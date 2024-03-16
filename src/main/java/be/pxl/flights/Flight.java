@@ -1,4 +1,4 @@
-package be.pxl.paj.flights;
+package be.pxl.flights;
 
 import java.time.LocalDate;
 

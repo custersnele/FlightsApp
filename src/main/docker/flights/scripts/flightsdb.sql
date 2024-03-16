@@ -18,11 +18,13 @@ CREATE TABLE FLIGHTS (fid int PRIMARY KEY,
                       actual_time int,     -- in mins
                       distance int,        -- in miles
                       capacity int,
-                      price int            -- in $
-                      );
+                      price int,            -- in $
+                      FOREIGN KEY (carrier_id) REFERENCES CARRIERS(cid)
+);
 
-LOAD DATA LOCAL INFILE '/var/lib/mysql-files/flights-small2.csv' into TABLE FLIGHTS FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 0 ROWS;
 LOAD DATA LOCAL INFILE '/var/lib/mysql-files/carriers.csv' into TABLE CARRIERS FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 0 ROWS;
+LOAD DATA LOCAL INFILE '/var/lib/mysql-files/flights-small2.csv' into TABLE FLIGHTS FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 0 ROWS;
+
 
 ALTER TABLE FLIGHTS
 	ADD YEAR int default(year(now()));
@@ -46,5 +48,7 @@ INSERT INTO CUSTOMER VALUES(4, 'Bruce Banner', 'banner', 'iamhulk');
 
 CREATE TABLE RESERVATION(
     uid int NOT NULL,
-    fid int NOT NULL
+    fid int NOT NULL,
+	foreign key (uid) references CUSTOMER(uid),
+	foreign key (fid) references FLIGHTS(fid)
 );

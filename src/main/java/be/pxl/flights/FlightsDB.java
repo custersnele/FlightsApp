@@ -1,4 +1,4 @@
-package be.pxl.paj.flights;
+package be.pxl.flights;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
