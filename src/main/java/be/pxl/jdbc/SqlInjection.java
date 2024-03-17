@@ -19,7 +19,7 @@ public class SqlInjection {
 			Statement statement = conn.createStatement();
 			String movieName = "A CLOCKWORK ORANGE";
 			String movieName2 = "A CLOCKWORK ORANGE' UNION SELECT *, '1', '1' FROM DIRECTOR where '1=1";
-			String query = "SELECT * FROM MOVIES where MOV_TITLE = '" + movieName2 + "'";
+			String query = "SELECT * FROM MOVIES where MOV_TITLE = '" + movieName + "'";
 			System.out.println(query);
 			ResultSet resultSet = statement.executeQuery(query);
 			final ResultSetMetaData meta = resultSet.getMetaData();
